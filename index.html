@@ -1,696 +1,131 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Campus Blood Donor Finder | SRKR Engineering College</title>
-  <meta name="description" content="Find blood donors within SRKR Engineering College campus instantly. Register as a donor and save lives today." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRKR Campus Blood Donor Finder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-
-  <!-- ========== TOAST CONTAINER [NEW] ========== -->
-  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
-
-  <!-- ========== NAVIGATION BAR ========== -->
-  <!-- MODIFIED: Added SRKR college logo SVG beside text logo -->
-  <nav class="navbar" id="navbar">
-    <div class="nav-container">
-      <a href="#home" class="nav-logo">
-        <!-- [NEW] SRKR College Logo (SVG embedded — shield with initials) -->
-        <div class="college-logo" title="SRKR Engineering College">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 56" fill="none" aria-hidden="true">
-            <path d="M24 2L4 10V28C4 40 14 50 24 54C34 50 44 40 44 28V10L24 2Z" fill="#c8102e"/>
-            <path d="M24 6L7 13V28C7 38.8 15.8 48 24 51.5C32.2 48 41 38.8 41 28V13L24 6Z" fill="#a00020"/>
-            <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="10" font-weight="800" font-family="Poppins,sans-serif" letter-spacing="0.5">SRKR</text>
-            <text x="50%" y="76%" dominant-baseline="middle" text-anchor="middle" fill="#ffd700" font-size="5.5" font-weight="600" font-family="Poppins,sans-serif">SINCE 1961</text>
-          </svg>
+<body class="light-theme">
+    <nav>
+        <div class="nav-content">
+            <h1 onclick="showSection('hero')"><i class="fas fa-heartbeat"></i> SRKR Campus Blood Donor Finder</h1>
+            <ul>
+                <li><a href="javascript:void(0)" onclick="showSection('hero')">Home</a></li>
+                <li><a href="javascript:void(0)" onclick="showSection('search')">Search</a></li>
+                <li><a href="javascript:void(0)" onclick="showSection('register')">Register</a></li>
+                <li><a href="javascript:void(0)" onclick="showSection('dashboard')">Dashboard</a></li>
+                <li><button onclick="toggleTheme()" id="themeBtn"><i class="fas fa-moon"></i></button></li>
+            </ul>
         </div>
-        <div class="nav-logo-text">
-          <span class="logo-text-primary">BloodBridge</span>
-          <span class="logo-text-sub">SRKR Engineering College</span>
-        </div>
-      </a>
+    </nav>
 
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#home" class="nav-link active">Home</a></li>
-        <li><a href="#search" class="nav-link">Search Donor</a></li>
-        <li><a href="#register" class="nav-link">Register</a></li>
-        <li><a href="#dashboard" class="nav-link">Dashboard</a></li>
-      </ul>
-
-      <div class="nav-actions">
-        <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode" aria-label="Toggle dark mode">
-          <i class="fas fa-moon" id="themeIcon"></i>
-        </button>
-        <a href="#register" class="btn-nav-cta">Donate Blood</a>
-        <button class="hamburger" id="hamburger" aria-label="Open menu">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- ========== HERO SECTION ========== -->
-  <section class="hero" id="home">
-    <div class="hero-bg-shapes">
-      <div class="shape shape-1"></div>
-      <div class="shape shape-2"></div>
-      <div class="shape shape-3"></div>
-    </div>
-
-    <div class="hero-container">
-      <div class="hero-badge">
-        <i class="fas fa-heart-pulse"></i>
-        SRKR Engineering College, Bimavaram
-      </div>
-      <h1 class="hero-title">Campus Blood<br /><span class="gradient-text">Donor Finder</span></h1>
-      <p class="hero-tagline">Connecting lifesavers within SRKR campus</p>
-      <p class="hero-desc">
-        Every second counts. Find a compatible blood donor on campus in seconds —
-        because your next lifesaver might be studying right next to you.
-      </p>
-      <div class="hero-cta">
-        <a href="#search" class="btn-primary">
-          <i class="fas fa-search-plus"></i> Find Donor
-        </a>
-        <a href="#register" class="btn-secondary">
-          <i class="fas fa-user-plus"></i> Register as Donor
-        </a>
-        <!-- [MODIFIED] Emergency Trigger Button -->
-        <button class="btn-danger-outline pulse-btn" onclick="showEmergencyForm()">
-          <i class="fas fa-truck-medical"></i> Emergency Request
-        </button>
-      </div>
-
-      <div class="hero-stats">
-        <div class="stat-card">
-          <i class="fas fa-users stat-icon"></i>
-          <span class="stat-number" id="statTotal">0</span>
-          <span class="stat-label">Registered Donors</span>
-        </div>
-        <div class="stat-card">
-          <i class="fas fa-circle-check stat-icon"></i>
-          <span class="stat-number" id="statAvailable">0</span>
-          <span class="stat-label">Available Now</span>
-        </div>
-        <div class="stat-card">
-          <i class="fas fa-tint stat-icon"></i>
-          <span class="stat-number">8</span>
-          <span class="stat-label">Blood Groups</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="hero-scroll-hint">
-      <span>Scroll to explore</span>
-      <i class="fas fa-chevron-down bounce"></i>
-    </div>
-  </section>
-
-  <!-- ========== HOW IT WORKS ========== -->
-  <section class="how-it-works">
-    <div class="section-container">
-      <div class="section-header">
-        <span class="section-badge">Simple &amp; Fast</span>
-        <h2 class="section-title">How It Works</h2>
-        <p class="section-subtitle">Three easy steps to find or become a blood donor</p>
-      </div>
-      <div class="steps-grid">
-        <div class="step-card" data-step="01">
-          <div class="step-icon"><i class="fas fa-search"></i></div>
-          <h3>Search</h3>
-          <p>Select your required blood group and search for available donors on campus.</p>
-        </div>
-        <div class="step-card" data-step="02">
-          <div class="step-icon"><i class="fas fa-address-card"></i></div>
-          <h3>Connect</h3>
-          <p>View donor cards with contact details, availability and eligibility status.</p>
-        </div>
-        <div class="step-card" data-step="03">
-          <div class="step-icon"><i class="fas fa-hand-holding-heart"></i></div>
-          <h3>Save a Life</h3>
-          <p>Reach out directly and coordinate with the donor to save a precious life.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== SEARCH SECTION ========== -->
-  <section class="search-section" id="search">
-    <div class="section-container">
-      <div class="section-header">
-        <span class="section-badge">Find Help Now</span>
-        <h2 class="section-title">Search for a Donor</h2>
-        <p class="section-subtitle">Enter your requirements and find matching donors instantly</p>
-      </div>
-
-      <div class="search-card">
-        <div class="search-form" id="searchForm">
-          <div class="form-group">
-            <label for="searchBloodGroup"><i class="fas fa-tint"></i> Blood Group</label>
-            <select id="searchBloodGroup" class="form-control">
-              <option value="">-- All Blood Groups --</option>
-              <option value="A+">A+</option>
-              <option value="A-">A-</option>
-              <option value="B+">B+</option>
-              <option value="B-">B-</option>
-              <option value="AB+">AB+</option>
-              <option value="AB-">AB-</option>
-              <option value="O+">O+</option>
-              <option value="O-">O-</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="searchLocation"><i class="fas fa-map-marker-alt"></i> Department (Optional)</label>
-            <input type="text" id="searchLocation" class="form-control" placeholder="e.g. CSE, ECE, Hostel Block..." />
-          </div>
-          <button class="btn-primary search-btn" id="searchBtn" onclick="searchDonors()">
-            <i class="fas fa-search"></i> Search Donors
-          </button>
-        </div>
-      </div>
-
-      <!-- Loading Spinner -->
-      <div class="loading-spinner" id="loadingSpinner">
-        <div class="spinner-ring"></div>
-        <p>Searching for donors…</p>
-      </div>
-
-      <!-- Search Results -->
-      <div class="results-header" id="resultsHeader" style="display:none;">
-        <span id="resultsCount"></span>
-        <div class="results-filter">
-          <button class="filter-chip active" onclick="filterResults('all')" id="filterAll">All</button>
-          <button class="filter-chip" onclick="filterResults('available')" id="filterAvailable">Available Only</button>
-          <!-- [NEW] Eligible filter -->
-          <button class="filter-chip" onclick="filterResults('eligible')" id="filterEligible">Eligible Only</button>
-        </div>
-      </div>
-
-      <div class="donors-grid" id="donorsGrid"></div>
-      <div class="no-results" id="noResults" style="display:none;">
-        <i class="fas fa-heart-crack"></i>
-        <h3>No donors found</h3>
-        <p>Try a different blood group or <a href="#register">register yourself</a> to help others!</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== REGISTER SECTION ========== -->
-  <!-- MODIFIED: Added OTP step, Last Donation Date field, eligibility check UI -->
-  <section class="register-section" id="register">
-    <div class="section-container">
-      <div class="register-wrapper">
-        <div class="register-info">
-          <span class="section-badge">Be a Hero</span>
-          <h2 class="section-title">Register as Donor</h2>
-          <p class="section-subtitle">Join our growing community of campus lifesavers. Your single donation can save up to 3 lives.</p>
-          <ul class="register-benefits">
-            <li><i class="fas fa-check-circle"></i> Free health check-up opportunity</li>
-            <li><i class="fas fa-check-circle"></i> Certificate of appreciation</li>
-            <li><i class="fas fa-check-circle"></i> Priority access during emergencies</li>
-            <li><i class="fas fa-check-circle"></i> Be part of a life-saving movement</li>
-          </ul>
-
-          <!-- [NEW] 90-day rule info box -->
-          <div class="info-box">
-            <i class="fas fa-circle-info"></i>
-            <div>
-              <strong>Donation Cooldown Policy</strong>
-              <p>As per medical guidelines, donors must wait <strong>90 days</strong> between donations. Our system checks eligibility automatically.</p>
-            </div>
-          </div>
-
-          <div class="blood-types-info">
-            <div class="blood-badge">A+</div>
-            <div class="blood-badge">A-</div>
-            <div class="blood-badge">B+</div>
-            <div class="blood-badge">B-</div>
-            <div class="blood-badge">AB+</div>
-            <div class="blood-badge">AB-</div>
-            <div class="blood-badge">O+</div>
-            <div class="blood-badge">O-</div>
-          </div>
-        </div>
-
-        <div class="register-form-card">
-          <form id="registerForm" onsubmit="registerDonor(event)" novalidate>
-            <h3 class="form-title"><i class="fas fa-user-plus"></i> Donor Registration</h3>
-
-            <!-- STEP 1: Basic Info -->
-            <div class="form-step" id="step1">
-              <div class="step-indicator">
-                <span class="step-dot active" id="dot1">1</span>
-                <span class="step-line"></span>
-                <span class="step-dot" id="dot2">2</span>
-                <span class="step-line"></span>
-                <span class="step-dot" id="dot3">3</span>
-              </div>
-              <p class="step-label">Step 1 of 3 — Basic Details</p>
-
-              <div class="form-group">
-                <label for="regName">Full Name <span class="required">*</span></label>
-                <input type="text" id="regName" class="form-control" placeholder="Enter your full name" />
-                <span class="error-msg" id="errName"></span>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="regBloodGroup">Blood Group <span class="required">*</span></label>
-                  <select id="regBloodGroup" class="form-control">
-                    <option value="">-- Select --</option>
-                    <option value="A+">A+</option>
-                    <option value="A-">A-</option>
-                    <option value="B+">B+</option>
-                    <option value="B-">B-</option>
-                    <option value="AB+">AB+</option>
-                    <option value="AB-">AB-</option>
-                    <option value="O+">O+</option>
-                    <option value="O-">O-</option>
-                  </select>
-                  <span class="error-msg" id="errBloodGroup"></span>
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="active">
+            <div class="hero-content">
+                <h2>SRKR Campus <br><span>Blood Donor Finder</span></h2>
+                <p>A simple platform for students and staff to coordinate life-saving donations.</p>
+                <div class="hero-btns">
+                    <button onclick="showSection('search')" class="btn-p">Find Donor</button>
+                    <button onclick="showSection('register')" class="btn-s">Register Now</button>
+                    <button onclick="openEmergency()" class="btn-e">Emergency Broadcast</button>
                 </div>
-                <div class="form-group">
-                  <!-- [MODIFIED] Phone field now triggers OTP step -->
-                  <label for="regPhone">Phone Number <span class="required">*</span></label>
-                  <div class="phone-otp-row">
-                    <input type="tel" id="regPhone" class="form-control" placeholder="10-digit number" maxlength="10" />
-                    <button type="button" class="btn-send-otp" id="sendOtpBtn" onclick="sendOTP()">
-                      <i class="fas fa-paper-plane"></i> Send OTP
-                    </button>
-                  </div>
-                  <span class="error-msg" id="errPhone"></span>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="regDept">Department <span class="required">*</span></label>
-                  <select id="regDept" class="form-control">
-                    <option value="">-- Select --</option>
-                    <option value="CSE">CSE</option>
-                    <option value="ECE">ECE</option>
-                    <option value="EEE">EEE</option>
-                    <option value="MECH">MECH</option>
-                    <option value="CIVIL">CIVIL</option>
-                    <option value="IT">IT</option>
-                    <option value="MBA">MBA</option>
-                    <option value="MCA">MCA</option>
-                  </select>
-                  <span class="error-msg" id="errDept"></span>
-                </div>
-                <div class="form-group">
-                  <label for="regYear">Year <span class="required">*</span></label>
-                  <select id="regYear" class="form-control">
-                    <option value="">-- Select --</option>
-                    <option value="1st Year">1st Year</option>
-                    <option value="2nd Year">2nd Year</option>
-                    <option value="3rd Year">3rd Year</option>
-                    <option value="4th Year">4th Year</option>
-                  </select>
-                  <span class="error-msg" id="errYear"></span>
-                </div>
-              </div>
-
-              <!-- [NEW] Last Donation Date field -->
-              <div class="form-group">
-                <label for="lastDonationDate">
-                  <i class="fas fa-calendar-days"></i> Last Donation Date
-                  <span class="field-hint">(Leave blank if never donated)</span>
-                </label>
-                <input type="date" id="lastDonationDate" class="form-control" />
-                <span class="error-msg" id="errDate"></span>
-                <!-- [NEW] Eligibility status widget — shown after date is chosen -->
-                <div class="eligibility-widget" id="eligibilityWidget" style="display:none;">
-                  <div class="eligibility-status" id="eligibilityStatus"></div>
-                  <div class="countdown-info" id="countdownInfo"></div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="regAvailability">Availability</label>
-                <div class="toggle-group">
-                  <label class="toggle-switch">
-                    <input type="checkbox" id="regAvailability" checked />
-                    <span class="toggle-slider"></span>
-                  </label>
-                  <span id="availLabel">Available to Donate</span>
-                </div>
-              </div>
             </div>
-            <!-- END STEP 1 -->
+        </section>
 
-            <!-- [NEW] STEP 2: OTP Verification Panel -->
-            <div class="form-step otp-panel" id="otpPanel" style="display:none;">
-              <div class="step-indicator">
-                <span class="step-dot done" id="dot1otp">✓</span>
-                <span class="step-line active"></span>
-                <span class="step-dot active" id="dot2otp">2</span>
-                <span class="step-line"></span>
-                <span class="step-dot" id="dot3otp">3</span>
-              </div>
-              <p class="step-label">Step 2 of 3 — OTP Verification</p>
+        <!-- Search Section -->
+        <section id="search">
+            <h3><i class="fas fa-search"></i> Search Donors</h3>
+            <div class="search-box">
+                <select id="searchBlood">
+                    <option value="">Blood Group</option>
+                    <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+                    <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+                </select>
+                <input type="text" id="searchDept" placeholder="Department (e.g. CSE)">
+                <button onclick="filterDonors()"><i class="fas fa-filter"></i> Search</button>
+            </div>
+            <div id="searchResults" class="results-grid"></div>
+        </section>
 
-              <div class="otp-header">
-                <div class="otp-icon"><i class="fas fa-shield-halved"></i></div>
-                <div>
-                  <h4>Verify Your Phone</h4>
-                  <p id="otpSentMsg">OTP sent to <strong id="otpPhoneDisplay"></strong></p>
-                  <!-- [NEW] Demo OTP display (shows on page for testing) -->
-                  <div class="otp-demo-box" id="otpDemoBox">
-                    <i class="fas fa-eye"></i> Demo OTP: <strong id="otpDemoValue">------</strong>
-                    <span class="otp-demo-note">(visible for demo/viva purposes)</span>
-                  </div>
+        <!-- Register Section -->
+        <section id="register">
+            <h3><i class="fas fa-user-plus"></i> Donor Registration</h3>
+            <form id="regForm" onsubmit="handleRegistration(event)">
+                <div class="reg-inputs">
+                    <input type="text" id="name" placeholder="Full Name" required>
+                    <select id="blood" required>
+                        <option value="">Select Blood Group</option>
+                        <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+                        <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+                    </select>
+                    <input type="tel" id="phone" placeholder="10 Digit Phone" maxlength="10" required>
+                    <input type="text" id="dept" placeholder="Department" required>
+                    <select id="year" required>
+                        <option value="">Select Year</option>
+                        <option>1st Year</option><option>2nd Year</option><option>3rd Year</option><option>4th Year</option>
+                    </select>
+                    <div class="date-input">
+                        <label>Last Donation Date (if any):</label>
+                        <input type="date" id="lastDate">
+                    </div>
                 </div>
-              </div>
+                <button type="button" onclick="sendOTP()" id="otpBtn" class="btn-p">Generate OTP</button>
+                
+                <div id="otpArea" style="display:none">
+                    <p id="otpPrompt" class="info-msg"></p>
+                    <input type="text" id="otpInput" placeholder="Enter 6-digit OTP">
+                    <button type="button" onclick="verifyOTP()" class="btn-s">Verify & Register</button>
+                </div>
+            </form>
+        </section>
 
-              <div class="form-group">
-                <label for="otpInput">Enter 6-digit OTP <span class="required">*</span></label>
-                <input type="text" id="otpInput" class="form-control otp-input" placeholder="• • • • • •" maxlength="6" inputmode="numeric" />
-                <span class="error-msg" id="errOtp"></span>
-              </div>
-
-              <div class="otp-actions">
-                <button type="button" class="btn-primary" onclick="verifyOTP()" id="verifyOtpBtn">
-                  <i class="fas fa-check-circle"></i> Verify OTP
-                </button>
-                <button type="button" class="btn-resend" id="resendBtn" onclick="resendOTP()" disabled>
-                  <i class="fas fa-rotate-right"></i> Resend OTP
-                  <span id="resendTimer"></span>
-                </button>
-              </div>
-
-              <!-- OTP verified badge -->
-              <div class="otp-verified-badge" id="otpVerifiedBadge" style="display:none;">
-                <i class="fas fa-circle-check"></i> Phone number verified successfully!
-              </div>
-
-              <button type="button" class="btn-link-back" onclick="goBackToStep1()">
-                <i class="fas fa-arrow-left"></i> Change Details
-              </button>
+        <!-- Dashboard Section -->
+        <section id="dashboard">
+            <h3><i class="fas fa-table"></i> Donor Dashboard</h3>
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th><th>Blood</th><th>Dept</th><th>Year</th><th>Phone</th><th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dashBody"></tbody>
+                </table>
             </div>
-            <!-- END OTP PANEL -->
+        </section>
+    </main>
 
-            <!-- [NEW] STEP 3: Review & Submit -->
-            <div class="form-step" id="step3Panel" style="display:none;">
-              <div class="step-indicator">
-                <span class="step-dot done">✓</span>
-                <span class="step-line active"></span>
-                <span class="step-dot done">✓</span>
-                <span class="step-line active"></span>
-                <span class="step-dot active">3</span>
-              </div>
-              <p class="step-label">Step 3 of 3 — Review &amp; Submit</p>
-
-              <div class="review-box" id="reviewBox"></div>
-
-              <div class="verified-phone-row">
-                <span class="otp-verified-badge"><i class="fas fa-circle-check"></i> Phone Verified</span>
-              </div>
-
-              <button type="submit" class="btn-primary btn-full" id="submitBtn">
-                <i class="fas fa-heart"></i> Complete Registration
-              </button>
-              <button type="button" class="btn-link-back" onclick="goBackToOtp()">
-                <i class="fas fa-arrow-left"></i> Back
-              </button>
+    <!-- Emergency Modal -->
+    <div id="emergencyModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('emergencyModal')">&times;</span>
+            <h2 class="text-red"><i class="fas fa-bullhorn"></i> Emergency Request</h2>
+            <div id="emergencyForm">
+                <select id="eBlood"><option value="">Needed Group</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select>
+                <input type="text" id="eLoc" placeholder="Location (e.g. SRKR Health Centre)">
+                <input type="tel" id="eCall" placeholder="Contact Number">
+                <button onclick="broadcastAlert()" class="btn-e">Broadcast Now</button>
             </div>
-            <!-- END STEP 3 -->
-
-          </form>
-
-          <!-- Success Message -->
-          <div class="success-message" id="successMessage" style="display:none;">
-            <div class="success-icon"><i class="fas fa-circle-check"></i></div>
-            <h3>You're a Hero! 🎉</h3>
-            <p>Your registration was successful. You've been added to the donor list. Thank you for saving lives!</p>
-            <button class="btn-primary" onclick="resetForm()">Register Another</button>
-          </div>
         </div>
-      </div>
     </div>
-  </section>
 
-  <!-- ========== DASHBOARD SECTION ========== -->
-  <!-- MODIFIED: Added Eligibility column to table -->
-  <section class="dashboard-section" id="dashboard">
-    <div class="section-container">
-      <div class="section-header">
-        <span class="section-badge">Overview</span>
-        <h2 class="section-title">Donor Dashboard</h2>
-        <p class="section-subtitle">Real-time overview of all registered donors on campus</p>
-      </div>
-
-      <!-- Stats Cards -->
-      <div class="stats-grid">
-        <div class="stats-card stats-total">
-          <div class="stats-icon"><i class="fas fa-users"></i></div>
-          <div class="stats-info">
-            <span class="stats-number" id="dashTotal">0</span>
-            <span class="stats-label">Total Donors</span>
-          </div>
-        </div>
-        <div class="stats-card stats-available">
-          <div class="stats-icon"><i class="fas fa-circle-check"></i></div>
-          <div class="stats-info">
-            <span class="stats-number" id="dashAvailable">0</span>
-            <span class="stats-label">Available</span>
-          </div>
-        </div>
-        <div class="stats-card stats-unavailable">
-          <div class="stats-icon"><i class="fas fa-circle-xmark"></i></div>
-          <div class="stats-info">
-            <span class="stats-number" id="dashUnavailable">0</span>
-            <span class="stats-label">Unavailable</span>
-          </div>
-        </div>
-        <!-- [NEW] Eligible donors stat card -->
-        <div class="stats-card stats-eligible">
-          <div class="stats-icon"><i class="fas fa-shield-heart"></i></div>
-          <div class="stats-info">
-            <span class="stats-number" id="dashEligible">0</span>
-            <span class="stats-label">Eligible to Donate</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Filter by blood group -->
-      <div class="dash-filter">
-        <span class="filter-label"><i class="fas fa-filter"></i> Filter by Blood Group:</span>
-        <div class="filter-chips" id="bloodGroupFilters">
-          <button class="filter-chip active" onclick="filterDashboard('all')" id="dashAll">All</button>
-          <button class="filter-chip" onclick="filterDashboard('A+')">A+</button>
-          <button class="filter-chip" onclick="filterDashboard('A-')">A-</button>
-          <button class="filter-chip" onclick="filterDashboard('B+')">B+</button>
-          <button class="filter-chip" onclick="filterDashboard('B-')">B-</button>
-          <button class="filter-chip" onclick="filterDashboard('AB+')">AB+</button>
-          <button class="filter-chip" onclick="filterDashboard('AB-')">AB-</button>
-          <button class="filter-chip" onclick="filterDashboard('O+')">O+</button>
-          <button class="filter-chip" onclick="filterDashboard('O-')">O-</button>
-        </div>
-      </div>
-
-      <!-- Donor Table — [MODIFIED] added Eligibility column -->
-      <div class="dashboard-table-wrap">
-        <table class="dashboard-table" id="dashboardTable">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Blood Group</th>
-              <th>Department</th>
-              <th>Year</th>
-              <th>Phone</th>
-              <th>Status</th>
-              <th>Eligibility</th><!-- [NEW] -->
-            </tr>
-          </thead>
-          <tbody id="dashboardBody"></tbody>
-        </table>
-        <div class="no-results" id="dashNoResults" style="display:none;">
-          <i class="fas fa-database"></i>
-          <h3>No donors in this category</h3>
-          <p>Be the first! <a href="#register">Register now</a></p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== FOOTER ========== -->
-  <!-- MODIFIED: Added college logo + branding to footer -->
-  <footer class="footer">
-    <div class="footer-container">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <!-- [NEW] College logo in footer -->
-          <div class="footer-logo">
-            <div class="footer-college-logo">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 56" fill="none" aria-hidden="true">
-                <path d="M24 2L4 10V28C4 40 14 50 24 54C34 50 44 40 44 28V10L24 2Z" fill="#c8102e"/>
-                <path d="M24 6L7 13V28C7 38.8 15.8 48 24 51.5C32.2 48 41 38.8 41 28V13L24 6Z" fill="#a00020"/>
-                <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="10" font-weight="800" font-family="Poppins,sans-serif" letter-spacing="0.5">SRKR</text>
-                <text x="50%" y="76%" dominant-baseline="middle" text-anchor="middle" fill="#ffd700" font-size="5.5" font-weight="600" font-family="Poppins,sans-serif">SINCE 1961</text>
-              </svg>
+    <!-- Alert Dialog (Emergency Info) -->
+    <div id="alertModal" class="modal">
+        <div class="modal-content alert-content">
+            <h2 class="text-red">🚨 URGENT CALL</h2>
+            <p id="alertMsg"></p>
+            <div class="alert-info">
+                <p>Location: <strong id="alertLoc"></strong></p>
+                <p>Contact: <strong id="alertCon"></strong></p>
+                <p>Urgency: <span id="alertTimer">02:00:00</span> remaining</p>
             </div>
-            <div>
-              <span class="footer-logo-name">BloodBridge SRKR</span>
-              <span class="footer-logo-tagline">SRKR Engineering College</span>
-            </div>
-          </div>
-          <p>Connecting campus lifesavers at SRKR Engineering College, Bimavaram. Every drop counts. 🩸</p>
-          <div class="social-links">
-            <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
-            <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-          </div>
+            <button onclick="closeModal('alertModal')" class="btn-p">Close</button>
         </div>
-
-        <div class="footer-col">
-          <h4>Quick Links</h4>
-          <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#search">Search Donor</a></li>
-            <li><a href="#register">Register</a></li>
-            <li><a href="#dashboard">Dashboard</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Contact</h4>
-          <ul class="contact-list">
-            <li><i class="fas fa-map-marker-alt"></i> <span>SRKR Engineering College,<br />Bimavaram, Andhra Pradesh – 534204</span></li>
-            <li><i class="fas fa-phone"></i> <a href="tel:+918886000000">+91 88860 00000</a></li>
-            <li><i class="fas fa-envelope"></i> <a href="mailto:bloodbridge@srkr.ac.in">bloodbridge@srkr.ac.in</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Emergency</h4>
-          <a href="tel:+919999900000" class="emergency-link">
-            <div class="emergency-box">
-              <i class="fas fa-phone-volume"></i>
-              <div>
-                <strong>Blood Emergency Hotline</strong>
-                <span>+91 99999 00000</span>
-                <small>Available 24 × 7</small>
-              </div>
-            </div>
-          </a>
-          <p class="footer-note">For critical need, contact the college medical centre directly.</p>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <p>© 2025 BloodBridge SRKR — Built with <i class="fas fa-heart" style="color:var(--red-500);"></i> by SRKR Students</p>
-        <p>SRKR Engineering College, Bimavaram | Affiliated to JNTUK</p>
-      </div>
     </div>
-  </footer>
 
-  <!-- ========== EMERGENCY POPUP MODAL [NEW] ========== -->
-  <div class="emergency-modal-overlay" id="emergencyModal" aria-hidden="true" role="dialog">
-    <div class="emergency-modal-content">
-      <button class="close-modal" id="closeEmergencyModal" aria-label="Close modal">&times;</button>
-      
-      <div class="emergency-modal-header">
-        <div class="emergency-icon-wrapper pulse-animation">
-          <i class="fas fa-truck-medical"></i>
-        </div>
-        <h2>🚨 Urgent Blood Required</h2>
-      </div>
-      
-      <div class="emergency-modal-body">
-        <div class="urgent-blood-wrapper" id="emergencyBloodWrapper">
-          <span class="urgent-bg">O+</span>
-          <span class="urgent-bg">A-</span>
-        </div>
-        <p class="emergency-msg" id="emergencyMsg">Immediate donors needed for a critical case at the campus health centre. Your help can save a life.</p>
-        
-        <div class="emergency-details">
-          <div class="detail-row">
-            <div class="detail-icon"><i class="fas fa-map-marker-alt"></i></div>
-            <span><strong>Location:</strong> <span id="emergencyLocationDisplay">SRKR Campus Health Centre</span></span>
-          </div>
-          <div class="detail-row">
-            <div class="detail-icon"><i class="fas fa-phone-volume"></i></div>
-            <span><strong>Contact:</strong> <a href="tel:+919999988888" id="emergencyContactLink"><span id="emergencyContactDisplay">+91 99999 88888</span></a></span>
-          </div>
-          <div class="detail-row emergency-timer-row">
-            <div class="detail-icon"><i class="fas fa-clock"></i></div>
-            <span><strong>Urgency:</strong> <span class="urgent-timer" id="urgentTimer">02:15:30</span> remaining</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="emergency-modal-footer">
-        <button class="btn-donate-urgent" onclick="handleICanDonate()">
-          <i class="fas fa-hand-holding-heart"></i> I Can Donate Now
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== EMERGENCY REQUEST FORM MODAL [NEW] ========== -->
-  <div class="emergency-modal-overlay" id="emergencyFormModal" aria-hidden="true" role="dialog">
-    <div class="emergency-modal-content">
-      <button class="close-modal" id="closeEmergencyForm" aria-label="Close modal">&times;</button>
-      
-      <div class="emergency-modal-header">
-        <div class="emergency-icon-wrapper">
-          <i class="fas fa-file-waveform"></i>
-        </div>
-        <h2>Emergency Request Details</h2>
-      </div>
-      
-      <div class="emergency-modal-body">
-        <form id="emergencyDataForm" onsubmit="submitEmergencyRequest(event)">
-          <div class="form-group">
-            <label for="emBloodGroup"><i class="fas fa-tint"></i> Required Blood Group</label>
-            <select id="emBloodGroup" class="form-control" required>
-              <option value="">-- Select --</option>
-              <option value="A+">A+</option>
-              <option value="A-">A-</option>
-              <option value="B+">B+</option>
-              <option value="B-">B-</option>
-              <option value="AB+">AB+</option>
-              <option value="AB-">AB-</option>
-              <option value="O+">O+</option>
-              <option value="O-">O-</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label for="emLocation"><i class="fas fa-map-marker-alt"></i> Hospital / Campus Location</label>
-            <input type="text" id="emLocation" class="form-control" placeholder="e.g. SRKR Health Centre" required />
-          </div>
-          
-          <div class="form-group">
-            <label for="emContact"><i class="fas fa-phone"></i> Contact Number</label>
-            <input type="tel" id="emContact" class="form-control" placeholder="10-digit number" maxlength="10" required />
-          </div>
-
-          <div class="emergency-modal-footer">
-            <button type="submit" class="btn-donate-urgent">
-              <i class="fas fa-bullhorn"></i> Broadcast Emergency
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- Back to top button -->
-  <button class="back-to-top" id="backToTop" aria-label="Back to top" onclick="scrollToTop()">
-    <i class="fas fa-arrow-up"></i>
-  </button>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
-
